@@ -2,14 +2,13 @@ const mallaData = [
   {
     semestre: 1,
     cursos: [
-      { nombre: "Bases y Fundamentos I", descripcion: "Introducción a la medicina y ciencias básicas.", prereq: [] },
+      { nombre: "Bases y Fundamentos I", descripcion: "Introducción a la medicina, ciencias básicas.", prereq: [] },
       { nombre: "Química", descripcion: "Curso de química general y orgánica.", prereq: [] },
       { nombre: "Psicología Médica", descripcion: "Fundamentos de psicología aplicada a la medicina.", prereq: [] },
       { nombre: "Física", descripcion: "Bases de física relevantes para ciencias médicas.", prereq: [] },
       { nombre: "Biología Molecular", descripcion: "Estudio de la biología a nivel molecular.", prereq: [] },
     ],
   },
-  // Aquí sigue el resto de semestres 2 a 12, idéntico a lo anterior, por ejemplo:
   {
     semestre: 2,
     cursos: [
@@ -17,10 +16,97 @@ const mallaData = [
       { nombre: "Morfología I", descripcion: "Anatomía y estructura humana básica.", prereq: [] },
       { nombre: "Bioestadística", descripcion: "Métodos estadísticos aplicados a la salud.", prereq: [] },
       { nombre: "Antropología y Ética", descripcion: "Aspectos sociales y éticos en medicina.", prereq: [] },
-      { nombre: "Formación General 1", descripcion: "Cursos optativos y formación transversal.", prereq: [] },
+      { nombre: "Formación General 1", descripcion: "Curso optativo transversal UC.", prereq: [] },
     ],
   },
-  // Completa todos los semestres hasta 12 igual que el ejemplo que te di arriba.
+  {
+    semestre: 3,
+    cursos: [
+      { nombre: "Morfología II", descripcion: "Anatomía avanzada y técnicas de diagnóstico.", prereq: ["Morfología I"] },
+      { nombre: "Inmunología y Genética", descripcion: "Estudio del sistema inmune y genética humana.", prereq: [] },
+      { nombre: "Razonamiento Matemático", descripcion: "Desarrollo del pensamiento lógico y matemático.", prereq: [] },
+      { nombre: "Formación General 2", descripcion: "Curso optativo transversal UC.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 4,
+    cursos: [
+      { nombre: "Morfología III", descripcion: "Estudio avanzado de estructuras corporales.", prereq: ["Morfología II"] },
+      { nombre: "Bases y Mecanismos Enfermedad I", descripcion: "Introducción a patologías y mecanismos de enfermedad.", prereq: [] },
+      { nombre: "Salud Pública", descripcion: "Principios de salud colectiva y promoción.", prereq: [] },
+      { nombre: "Formación General 3", descripcion: "Curso optativo transversal UC.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 5,
+    cursos: [
+      { nombre: "Clínica I", descripcion: "Primer contacto clínico con pacientes.", prereq: ["Bases y Mecanismos Enfermedad I"] },
+      { nombre: "Microbiología Médica", descripcion: "Estudio de microorganismos y su relación con la salud.", prereq: [] },
+      { nombre: "ICM I", descripcion: "Integrado Ciencias Médicas I.", prereq: [] },
+      { nombre: "Farmacología Médica", descripcion: "Principios básicos de medicamentos.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 6,
+    cursos: [
+      { nombre: "Clínica II", descripcion: "Continuación de la formación clínica.", prereq: ["Clínica I"] },
+      { nombre: "Bases de la Práctica Profesional", descripcion: "Introducción a la práctica médica profesional.", prereq: [] },
+      { nombre: "ICM II", descripcion: "Integrado Ciencias Médicas II.", prereq: [] },
+      { nombre: "ICM III", descripcion: "Integrado Ciencias Médicas III.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 7,
+    cursos: [
+      { nombre: "Clínica III", descripcion: "Avanzado en formación clínica.", prereq: ["Clínica II"] },
+      { nombre: "Neurociencias", descripcion: "Estudio del sistema nervioso.", prereq: [] },
+      { nombre: "ICM IV", descripcion: "Integrado Ciencias Médicas IV.", prereq: [] },
+      { nombre: "Formación General 4", descripcion: "Curso optativo transversal UC.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 8,
+    cursos: [
+      { nombre: "Integrado Quirúrgico", descripcion: "Formación quirúrgica integrada.", prereq: [] },
+      { nombre: "ICM V", descripcion: "Integrado Ciencias Médicas V.", prereq: [] },
+      { nombre: "ICM VI", descripcion: "Integrado Ciencias Médicas VI.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 9,
+    cursos: [
+      { nombre: "Pediatría y Cirugía Infantil", descripcion: "Atención médica infantil.", prereq: [] },
+      { nombre: "Medicina del Adulto", descripcion: "Clínica en adultos.", prereq: [] },
+      { nombre: "Obstetricia y Ginecología", descripcion: "Salud de la mujer.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 10,
+    cursos: [
+      { nombre: "Cirugía", descripcion: "Formación en técnicas quirúrgicas.", prereq: [] },
+      { nombre: "Neuropsiquiatría Clínica", descripcion: "Psiquiatría y neurología clínica.", prereq: [] },
+      { nombre: "Urgencias", descripcion: "Manejo de urgencias médicas.", prereq: [] },
+      { nombre: "Dermatología", descripcion: "Estudio de enfermedades de la piel.", prereq: [] },
+      { nombre: "Oftalmología", descripcion: "Salud visual y enfermedades oculares.", prereq: [] },
+      { nombre: "Otorrinolaringología", descripcion: "Estudio de oído, nariz y garganta.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 11,
+    cursos: [
+      { nombre: "Internado Medicina Interna", descripcion: "Práctica clínica avanzada en medicina interna.", prereq: [] },
+      { nombre: "Internado Pediatría", descripcion: "Práctica clínica avanzada en pediatría.", prereq: [] },
+      { nombre: "Internado Obstetricia", descripcion: "Práctica clínica avanzada en obstetricia.", prereq: [] },
+    ],
+  },
+  {
+    semestre: 12,
+    cursos: [
+      { nombre: "Medicina Familiar", descripcion: "Práctica y teoría en medicina familiar.", prereq: [] },
+      { nombre: "Internado Electivo", descripcion: "Práctica electiva en área de interés.", prereq: [] },
+      { nombre: "Profundización", descripcion: "Cursos para profundización académica.", prereq: [] },
+    ],
+  },
 ];
 
 const malla = document.getElementById('malla');
