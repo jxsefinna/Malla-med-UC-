@@ -1,138 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Malla Medicina UC</title>
-  <script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-  <style>
-    body { font-family: sans-serif; padding: 1rem; }
-    .mermaid { background: #f9f9f9; padding: 1rem; border-radius: 8px; overflow-x: auto; }
-    .completed { color: green; font-weight: bold; }
-    .course:hover { cursor: pointer; fill: #ffeaa7; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Interactiva Medicina UC</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f7f9fc;
+    margin: 0; padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .malla {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+  }
+  .semestre {
+    background: white;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  .semestre h2 {
+    font-size: 1rem;
+    margin: 0 0 8px 0;
+    text-align: center;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+  }
+  .curso {
+    background: #e0e7ff;
+    margin: 6px 0;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  }
+  .curso:hover {
+    background-color: #c3caff;
+  }
+  .curso.completado {
+    background-color: #a8d5a2;
+    color: #2a5d14;
+    font-weight: bold;
+  }
+  .descripcion {
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 0.15);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* Cada semestre ocupa 1 columna en grid */
+  /* Puedes ajustar el ancho mínimo para móviles */
+  @media (max-width: 900px) {
+    .malla {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+  }
+</style>
 </head>
 <body>
-  <h1>🩺 Malla Interactiva - Medicina UC</h1>
-  <p>Haz clic sobre un curso para ver su descripción o marcarlo como completado ✅</p>
 
-  <div class="mermaid">
-    graph TD
+<h1>🩺 Malla Interactiva Medicina UC</h1>
 
-    %% Semestre 1
-    A1[Bases y Fundamentos I]
-    A2[Química]
-    A3[Psicología Médica]
-    A4[Física]
-    A5[Biología Molecular]
+<div class="malla" id="malla">
 
-    %% Semestre 2
-    B1[Bases y Fundamentos II] --> A1
-    B2[Morfología I]
-    B3[Bioestadística]
-    B4[Antropología y Ética]
-    B5[Formación General 1]
-
-    %% Semestre 3
-    C1[Morfología II] --> B2
-    C2[Inmunología y Genética]
-    C3[Razonamiento Matemático]
-    C4[Formación General 2]
-
-    %% Semestre 4
-    D1[Morfología III] --> C1
-    D2[Bases y Mecanismos Enfermedad I]
-    D3[Salud Pública]
-    D4[Formación General 3]
-
-    %% Semestre 5
-    E1[Clínica I]
-    E2[Microbiología Médica]
-    E3[ICM I]
-    E4[Farmacología Médica]
-
-    %% Semestre 6
-    F1[Clínica II] --> E1
-    F2[Bases de la Práctica Profesional]
-    F3[ICM II]
-    F4[ICM III]
-
-    %% Semestre 7
-    G1[Clínica III] --> F1
-    G2[Neurociencias]
-    G3[ICM IV]
-    G4[Formación General 4]
-
-    %% Semestre 8
-    H1[Integrado Quirúrgico]
-    H2[ICM V]
-    H3[ICM VI]
-
-    %% Semestre 9
-    I1[Pediatría y Cirugía Infantil]
-    I2[Medicina del Adulto]
-    I3[Obstetricia y Ginecología]
-
-    %% Semestre 10
-    J1[Cirugía]
-    J2[Neuropsiquiatría Clínica]
-    J3[Urgencias]
-    J4[Dermatología]
-    J5[Oftalmología]
-    J6[Otorrinolaringología]
-
-    %% Semestre 11
-    K1[Internado Medicina Interna]
-    K2[Internado Pediatría]
-    K3[Internado Obstetricia]
-
-    %% Semestre 12
-    L1[Medicina Familiar]
-    L2[Internado Electivo]
-    L3[Profundización]
+  <div class="semestre" data-semestre="1">
+    <h2>Semestre 1</h2>
+    <div class="curso" data-nombre="Bases y Fundamentos I">Bases y Fundamentos I</div>
+    <div class="curso" data-nombre="Química">Química</div>
+    <div class="curso" data-nombre="Psicología Médica">Psicología Médica</div>
+    <div class="curso" data-nombre="Física">Física</div>
+    <div class="curso" data-nombre="Biología Molecular">Biología Molecular</div>
   </div>
 
-  <script>
-    // Mapa de descripciones de cursos
-    const courseDescriptions = {
-      "Bases y Fundamentos I": "Introducción a la medicina, ciencias básicas.",
-      "Clínica I": "Primer contacto clínico con pacientes.",
-      "ICM I": "Integrado Ciencias Médicas I.",
-      "Medicina del Adulto": "Clínica en adultos...",
-      "Formación General 1": "Curso optativo transversal UC.",
-      // ... puedes seguir completando esto
-    };
+  <div class="semestre" data-semestre="2">
+    <h2>Semestre 2</h2>
+    <div class="curso" data-nombre="Bases y Fundamentos II">Bases y Fundamentos II</div>
+    <div class="curso" data-nombre="Morfología I">Morfología I</div>
+    <div class="curso" data-nombre="Bioestadística">Bioestadística</div>
+    <div class="curso" data-nombre="Antropología y Ética">Antropología y Ética</div>
+    <div class="curso" data-nombre="Formación General 1">Formación General 1</div>
+  </div>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const observer = new MutationObserver(() => {
-        const nodes = document.querySelectorAll("g[class*=node]");
-        nodes.forEach(node => {
-          const label = node.querySelector("text")?.textContent;
-          if (!label) return;
+  <!-- Añade más semestres según necesites -->
 
-          node.classList.add("course");
+</div>
 
-          node.addEventListener("click", () => {
-            const done = confirm(`¿Marcar "${label}" como completado?`);
-            if (done) {
-              localStorage.setItem(label, "completado");
-              alert(`✅ ${label} marcado como completado`);
-            } else if (courseDescriptions[label]) {
-              alert(`📘 ${label}: ${courseDescriptions[label]}`);
-            }
-          });
+<div class="descripcion" id="descripcion" style="display:none;"></div>
 
-          // Mostrar si está completado
-          if (localStorage.getItem(label) === "completado") {
-            node.querySelector("text").classList.add("completed");
-          }
-        });
-      });
+<script>
+  const courseDescriptions = {
+    "Bases y Fundamentos I": "Introducción a la medicina, ciencias básicas.",
+    "Química": "Curso de química general y orgánica.",
+    "Psicología Médica": "Fundamentos de psicología aplicada a la medicina.",
+    "Física": "Bases de física relevantes para ciencias médicas.",
+    "Biología Molecular": "Estudio de la biología a nivel molecular.",
+    "Bases y Fundamentos II": "Continuación del estudio básico en medicina.",
+    "Morfología I": "Anatomía y estructura humana básica.",
+    "Bioestadística": "Métodos estadísticos aplicados a la salud.",
+    "Antropología y Ética": "Aspectos sociales y éticos en medicina.",
+    "Formación General 1": "Cursos optativos y formación transversal.",
+    // completa con más descripciones
+  };
 
-      observer.observe(document.querySelector(".mermaid"), { childList: true, subtree: true });
+  const malla = document.getElementById('malla');
+  const descripcionDiv = document.getElementById('descripcion');
+
+  // Cargar estado guardado
+  function cargarEstado() {
+    document.querySelectorAll('.curso').forEach(curso => {
+      const nombre = curso.dataset.nombre;
+      if(localStorage.getItem(nombre) === 'completado') {
+        curso.classList.add('completado');
+      } else {
+        curso.classList.remove('completado');
+      }
     });
-  </script>
+  }
+
+  malla.addEventListener('click', e => {
+    if (e.target.classList.contains('curso')) {
+      const nombre = e.target.dataset.nombre;
+      const isCompleted = e.target.classList.contains('completado');
+
+      // Si está completado, al hacer clic lo desmarcamos
+      if (isCompleted) {
+        e.target.classList.remove('completado');
+        localStorage.removeItem(nombre);
+        descripcionDiv.style.display = 'none';
+      } else {
+        // Si no está completado, mostramos descripción y opción a marcar
+        descripcionDiv.style.display = 'block';
+        descripcionDiv.innerHTML = `<h3>${nombre}</h3><p>${courseDescriptions[nombre] || 'Descripción no disponible.'}</p><button id="btnMarcar">Marcar como completado ✅</button>`;
+        // Botón para marcar completado
+        document.getElementById('btnMarcar').onclick = () => {
+          e.target.classList.add('completado');
+          localStorage.setItem(nombre, 'completado');
+          descripcionDiv.style.display = 'none';
+        };
+      }
+    }
+  });
+
+  cargarEstado();
+</script>
+
 </body>
 </html>
