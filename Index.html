@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Interactiva Medicina UC</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    margin: 0; padding: 20px;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .grid-malla {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+  }
+  .semestre {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  .semestre h2 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    border-bottom: 2px solid #3b82f6;
+    padding-bottom: 6px;
+    color: #3b82f6;
+    text-align: center;
+  }
+  .curso {
+    background: #dbeafe;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 6px 0;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+    position: relative;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  .curso:hover {
+    background-color: #bfdbfe;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+  }
+  .curso.completado {
+    background-color: #a7f3d0;
+    color: #064e3b;
+    font-weight: 600;
+  }
+  /* Tooltip prerrequisitos */
+  .tooltip {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    cursor: help;
+    font-weight: bold;
+  }
+
+  /* Modal */
+  #modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  #modalContent {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+    position: relative;
+  }
+  #modalContent h3 {
+    margin-top: 0;
+  }
+  #modalClose {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+  }
+  #btnToggleComplete {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #3b82f6;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  #btnToggleComplete:hover {
+    background-color: #2563eb;
+  }
+
+  /* Responsive */
+  @media (max-width: 1000px) {
+    .grid-malla {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>🩺 Malla Interactiva Medicina UC</h1>
+
+<div class="grid-malla" id="malla">
+  <!-- Semestres y cursos se inyectan con JS -->
+</div>
+
+<!-- Modal para detalles curso -->
+<div id="modal">
+  <div id="modalContent">
+    <span id="modalClose">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <button id="btnToggleComplete"></button>
+  </div>
+</div>
+
+<script>
+  // Datos de los cursos con semestres, nombres, descripciones y prerrequisitos (puedes editar)
+  const mallaData = [
+    {
+      semestre: 1,
+      cursos: [
+        { nombre: "Bases y Fundamentos I", descripcion: "Introducción a la medicina y ciencias básicas.", prereq: [] },
+        { nombre: "Química", descripcion: "Curso de química general y orgánica.", prereq: [] },
+        { nombre: "Psicología Médica", descripcion: "Fundamentos de psicología aplicada a la medicina.", prereq: [] },
+        { nombre: "Física", descripcion: "Bases de física relevantes para ciencias médicas.", prereq: [] },
+        { nombre: "Biología Molecular", descripcion: "Estudio de la biología a nivel molecular.", prereq: [] },
+      ],
+    },
+    {
+      semestre: 2,
+      cursos: [
+        { nombre: "Bases y Fundamentos II", descripcion: "Continuación del estudio básico en medicina.", prereq: ["Bases y Fundamentos I"] },
+        { nombre: "Morfología I", descripcion: "Anatomía y estructura humana básica.", prereq: [] },
+        { nombre: "Bioestadística", descripcion: "Métodos estadísticos aplicados a la salud.", prereq: [] },
+        { nombre: "Antropología y Ética", descripcion: "Aspectos sociales y éticos en medicina.", prereq: [] },
+        { nombre: "Formación General 1", descripcion: "Cursos optativos y formación transversal.", prereq: [] },
+      ],
+    },
+    // Puedes agregar hasta 12 semestres aquí siguiendo el mismo formato
+  ];
+
+  const malla = document.getElementById('malla');
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const btnToggleComplete = document.getElementById('btnToggleComplete');
+  const modalClose = document.getElementById('modalClose');
+
+  // Función para crear y mostrar la malla
+  function renderMalla() {
+    malla.innerHTML = '';
+    mallaData.forEach(({ semestre, cursos }) => {
+      const divSem = document.createElement('div');
+      divSem.classList.add('semestre');
+      divSem.style.gridColumn = semestre; // pone en columna x
+
+      const h2 = document.createElement('h2');
+      h2.textContent = `Semestre ${semestre}`;
+      divSem.appendChild(h2);
+
+      cursos.forEach(curso => {
+        const divCurso = document.createElement('div');
+        divCurso.classList.add('curso');
+        divCurso.textContent = curso.nombre;
+        divCurso.dataset.nombre = curso.nombre;
+
+        // Si tiene prerrequisitos, añadimos tooltip con número
+        if(curso.prereq.length > 0){
+          const tooltip = document.createElement('span');
+          tooltip.classList.add('tooltip');
+          tooltip.title = "Prerrequisitos:\n" + curso.prereq.join('\n');
+          tooltip.textContent = 'i';
+          divCurso.appendChild(tooltip);
+        }
+
+        // Si el curso está completado, agregar clase
+        if(localStorage.getItem(curso.nombre) === 'completado') {
+          divCurso.classList.add('completado');
+        }
+
+        // Evento clic para abrir modal
+        divCurso.addEventListener('click', () => openModal(curso));
+
+        divSem.appendChild(divCurso);
+      });
+
+      malla.appendChild(divSem);
+    });
+  }
+
+  // Abrir modal con info del curso
+  function openModal(curso) {
+    modalTitle.textContent = curso.nombre;
+    modalDesc.textContent = curso.descripcion;
+    const completado = localStorage.getItem(curso.nombre) === 'completado';
+
+    btnToggleComplete.textContent = completado ? 'Marcar como NO completado ❌' : 'Marcar como completado ✅';
+    btnToggleComplete.onclick = () => {
+      if(completado) {
+        localStorage.removeItem(curso.nombre);
+      } else {
+        localStorage.setItem(curso.nombre, 'completado');
+      }
+      renderMalla(); // actualizar visual
+      closeModal();
+    };
+
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  // Cerrar modal al clicar en la X o fuera del contenido
+  modalClose.onclick = closeModal;
+  window.onclick = (e) => {
+    if(e.target === modal) closeModal();
+  };
+
+  // Inicializar la malla
+  renderMalla();
+</script>
+
+</body>
+</html>
