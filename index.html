@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Malla Medicina UC</title>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    .mermaid { background: #f9f9f9; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+    .completed { color: green; font-weight: bold; }
+    .course:hover { cursor: pointer; fill: #ffeaa7; }
+  </style>
+</head>
+<body>
+  <h1>🩺 Malla Interactiva - Medicina UC</h1>
+  <p>Haz clic sobre un curso para ver su descripción o marcarlo como completado ✅</p>
+
+  <div class="mermaid">
+    graph TD
+
+    %% Semestre 1
+    A1[Bases y Fundamentos I]
+    A2[Química]
+    A3[Psicología Médica]
+    A4[Física]
+    A5[Biología Molecular]
+
+    %% Semestre 2
+    B1[Bases y Fundamentos II] --> A1
+    B2[Morfología I]
+    B3[Bioestadística]
+    B4[Antropología y Ética]
+    B5[Formación General 1]
+
+    %% Semestre 3
+    C1[Morfología II] --> B2
+    C2[Inmunología y Genética]
+    C3[Razonamiento Matemático]
+    C4[Formación General 2]
+
+    %% Semestre 4
+    D1[Morfología III] --> C1
+    D2[Bases y Mecanismos Enfermedad I]
+    D3[Salud Pública]
+    D4[Formación General 3]
+
+    %% Semestre 5
+    E1[Clínica I]
+    E2[Microbiología Médica]
+    E3[ICM I]
+    E4[Farmacología Médica]
+
+    %% Semestre 6
+    F1[Clínica II] --> E1
+    F2[Bases de la Práctica Profesional]
+    F3[ICM II]
+    F4[ICM III]
+
+    %% Semestre 7
+    G1[Clínica III] --> F1
+    G2[Neurociencias]
+    G3[ICM IV]
+    G4[Formación General 4]
+
+    %% Semestre 8
+    H1[Integrado Quirúrgico]
+    H2[ICM V]
+    H3[ICM VI]
+
+    %% Semestre 9
+    I1[Pediatría y Cirugía Infantil]
+    I2[Medicina del Adulto]
+    I3[Obstetricia y Ginecología]
+
+    %% Semestre 10
+    J1[Cirugía]
+    J2[Neuropsiquiatría Clínica]
+    J3[Urgencias]
+    J4[Dermatología]
+    J5[Oftalmología]
+    J6[Otorrinolaringología]
+
+    %% Semestre 11
+    K1[Internado Medicina Interna]
+    K2[Internado Pediatría]
+    K3[Internado Obstetricia]
+
+    %% Semestre 12
+    L1[Medicina Familiar]
+    L2[Internado Electivo]
+    L3[Profundización]
+  </div>
+
+  <script>
+    // Mapa de descripciones de cursos
+    const courseDescriptions = {
+      "Bases y Fundamentos I": "Introducción a la medicina, ciencias básicas.",
+      "Clínica I": "Primer contacto clínico con pacientes.",
+      "ICM I": "Integrado Ciencias Médicas I.",
+      "Medicina del Adulto": "Clínica en adultos...",
+      "Formación General 1": "Curso optativo transversal UC.",
+      // ... puedes seguir completando esto
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const observer = new MutationObserver(() => {
+        const nodes = document.querySelectorAll("g[class*=node]");
+        nodes.forEach(node => {
+          const label = node.querySelector("text")?.textContent;
+          if (!label) return;
+
+          node.classList.add("course");
+
+          node.addEventListener("click", () => {
+            const done = confirm(`¿Marcar "${label}" como completado?`);
+            if (done) {
+              localStorage.setItem(label, "completado");
+              alert(`✅ ${label} marcado como completado`);
+            } else if (courseDescriptions[label]) {
+              alert(`📘 ${label}: ${courseDescriptions[label]}`);
+            }
+          });
+
+          // Mostrar si está completado
+          if (localStorage.getItem(label) === "completado") {
+            node.querySelector("text").classList.add("completed");
+          }
+        });
+      });
+
+      observer.observe(document.querySelector(".mermaid"), { childList: true, subtree: true });
+    });
+  </script>
+</body>
+</html>
