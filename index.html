@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Interactiva Medicina UC</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>🩺 Malla Interactiva Medicina UC</h1>
+
+<div class="controls">
+  <select id="filterSelect" title="Filtrar cursos">
+    <option value="all">Mostrar todos</option>
+    <option value="completed">Solo completados ✅</option>
+    <option value="pending">Solo pendientes ⏳</option>
+  </select>
+  <button id="resetBtn" title="Resetear progreso">🔄 Resetear progreso</button>
+  <button id="exportBtn" title="Exportar progreso JSON">📤 Exportar progreso</button>
+</div>
+
+<div id="progressBarContainer">
+  <div id="progressBar"></div>
+</div>
+<div id="progressText">Progreso: 0%</div>
+
+<div class="grid-malla" id="malla"></div>
+
+<!-- Modal -->
+<div id="modal">
+  <div id="modalContent">
+    <span id="modalClose">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <button id="btnToggleComplete"></button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
